@@ -4,7 +4,7 @@ from time import time
 
 fileA = 'a'
 fileB = 'b'
-fileSum = 'sum.txt'
+fileSum = 'sum2.txt'
 hashPath = 'hashtable'
 tempFile = 'temp'
 noReadList = []
@@ -35,7 +35,7 @@ def hash2File(lable, index, content):
 # 随机创建文件内容
 def createFile(filename):
   with open(filename, 'a+') as f:
-    for i in range(1000):
+    for i in range(10000):
       line = md5(str(int(random.random() * 10000)).encode("utf-8")).hexdigest()
       # line = int(random.random() * 100000)
       f.write('%s\n'%(line))
@@ -130,7 +130,7 @@ def calcSame(filename):
 if __name__=='__main__':
 
   # # 初始化数据
-  print('初始化数据')
+  # print('初始化数据')
   createFile(fileA)
   createFile(fileB)
 
@@ -157,7 +157,7 @@ if __name__=='__main__':
     if os.path.isfile(itemPath):
       # 是否需要拆分
       num = splitFile(itemPath)
-      print(itemPath, num)
+      # print(itemPath, num)
       if num is 0:
         # 不需要拆分,进行文件的遍历统计
         noReadList.clear()

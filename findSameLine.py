@@ -173,7 +173,7 @@ if __name__=='__main__':
     if os.path.isfile(itemPath):
       # 是否需要拆分
       num = splitFile(itemPath)
-      print(itemPath, num)
+      # print(itemPath, num)
       if num is 0:
         # 不需要拆分,进行文件的遍历统计
         calcSame(itemPath)
