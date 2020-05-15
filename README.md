@@ -21,6 +21,6 @@ python3 mapFile.py
 
 ### 运行结果：
 
-AB文件 3000行
+AB文件 1000行
 
 ![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/1589521940280.jpg)
