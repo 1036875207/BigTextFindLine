@@ -100,9 +100,6 @@ def getDataParam(str):
 def calcSame(filename):
   aList = []
   bList = []
-  # 清除temp
-  if os.path.exists(tempFile):
-    os.remove(tempFile)
 
   # 打开读取文件内容
   f = open(filename)
@@ -127,8 +124,8 @@ def calcSame(filename):
         else:
           bList.append(index)
       # 行内容不同，写到新的文件中去，最后覆盖当前文件
-      else:
-        writeTemp(line)
+      # else:
+      #   writeTemp(line)
 
   # 写入结果
   if len(aList) > 0 and len(bList) > 0:
