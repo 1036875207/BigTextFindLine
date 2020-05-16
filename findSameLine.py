@@ -34,7 +34,7 @@ def hash2File(lable, index, content):
 # 随机创建文件内容
 def createFile(filename):
   with open(filename, 'a+') as f:
-    for i in range(1000):
+    for i in range(3000):
       line = md5(str(int(random.random() * 10000)).encode("utf-8")).hexdigest()
       # line = int(random.random() * 100000)
       f.write('%s\n'%(line))

@@ -131,8 +131,8 @@ if __name__=='__main__':
 
   # # 初始化数据
   # print('初始化数据')
-  createFile(fileA)
-  createFile(fileB)
+  # createFile(fileA)
+  # createFile(fileB)
 
   # # 计时
   start = time()

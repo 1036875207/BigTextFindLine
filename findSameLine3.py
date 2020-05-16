@@ -2,8 +2,8 @@ import sys,os,random,shutil
 from hashlib import md5
 from time import time
 
-fileA = 'book1.txt'
-fileB = 'book2.txt'
+fileA = 'a'
+fileB = 'b'
 fileSum = 'sum2.txt'
 hashPath = 'hashtable'
 tempFile = 'temp'
@@ -16,7 +16,7 @@ cacheSize = 2*1024*1024*100
 # 缓存结果
 resultCache = []
 resultMemery = 0
-resultSize = 100
+resultSize = 500
 
 # 读文件并创建散列
 def createHash(filename):
@@ -93,7 +93,7 @@ def saveResult(line):
   global resultMemery
   resultCache.append(line)
   resultMemery += 1
-  print(resultMemery)
+  # print(resultMemery)
   if resultMemery >= resultSize:
     # 写结果
     print('写结果')

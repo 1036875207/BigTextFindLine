@@ -27,7 +27,7 @@ python3 mapFile.py
 
 AB文件 3000行
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/1589521940280.jpg)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/2020-05-17.jpg)
 
 #### 结果二
 
@@ -54,7 +54,7 @@ A文件(235k 40000行) B文件(236k 40000行)数据
 
 **重新散列为4096个文件**
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/2020-05-17.jpg)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/20205.jpg)
 
 散列耗时6.548444747924805秒
 
