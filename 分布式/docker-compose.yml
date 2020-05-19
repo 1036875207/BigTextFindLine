@@ -1,0 +1,82 @@
+version: '3'
+services:
+  server1:
+    container_name: s1
+    image: 'python:3.7'
+    volumes:
+      - /Users/x/Workspace/BigTextFindLine/分布式/:/workspace
+    restart: always
+    stdin_open: true
+    resources: 
+      reservations:
+        cpus: '1'
+    command:
+    - sh
+    - -c 
+    - |
+      cd /workspace
+      python3 -u reducer.py reducer1 reducerSum1.txt
+  server2:
+    container_name: s2
+    image: 'python:3.7'
+    volumes:
+      - /Users/x/Workspace/BigTextFindLine/分布式/:/workspace
+    restart: always
+    stdin_open: true
+    resources: 
+      reservations:
+        cpus: '1'
+    command:
+    - sh
+    - -c 
+    - |
+      cd /workspace
+      python3 -u reducer.py reducer2 reducerSum2.txt
+  server3:
+    container_name: s3
+    image: 'python:3.7'
+    volumes:
+      - /Users/x/Workspace/BigTextFindLine/分布式/:/workspace
+    restart: always
+    stdin_open: true
+    resources: 
+      reservations:
+        cpus: '1'
+    command:
+    - sh
+    - -c 
+    - |
+      cd /workspace
+      python3 -u reducer.py reducer3 reducerSum3.txt
+  server4:
+    container_name: s4
+    image: 'python:3.7'
+    volumes:
+      - /Users/x/Workspace/BigTextFindLine/分布式/:/workspace
+    restart: always
+    stdin_open: true
+    resources: 
+      reservations:
+        cpus: '1'
+    command:
+    - sh
+    - -c 
+    - |
+      cd /workspace
+      python3 -u reducer.py reducer4 reducerSum4.txt
+  # server5:
+  #   container_name: s5
+  #   image: 'python:3.7'
+  #   volumes:
+  #     - /Users/dumingjin/Workspace/BigTextFindLine/分布式/:/workspace
+  #   restart: always
+  #   tty: true
+  #   stdin_open: true
+  #   command:
+  #   - sh
+  #   - -c 
+  #   - |
+  #     cd /workspace
+  #     python3 reducer.py reducer4
+    # command: 
+    #   - cd /workspace && python3 reducer.py reducer4
