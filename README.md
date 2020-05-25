@@ -37,10 +37,10 @@ python3 mapFile.py
 
 AB文件 9.39G 耗时350s
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/2020-05-17.jpg)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG2.jpeg)
 
 #### 结果二
 
-AB文件 20G 耗时 664s
+AB文件 20.4G 耗时 664s
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/2020-05-17.jpg)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG1.png)
