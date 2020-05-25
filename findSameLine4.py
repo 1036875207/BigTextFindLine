@@ -7,7 +7,7 @@ from time import time
 
 fileA = 'a'
 fileB = 'b'
-fileSum = 'sum2.txt'
+fileSum = 'sum4.txt'
 hashPath = 'hashtable'
 tempFile = 'temp'
 
@@ -149,10 +149,6 @@ def singelRun(iRange):
   writeResult(resultCache)
   resultCache.clear()
   resultMemery = 0
-
-def singleCreate():
-  createFile(fileA)
-  createFile(fileB)
 
 if __name__=='__main__':
  

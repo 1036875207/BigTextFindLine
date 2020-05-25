@@ -1,10 +1,11 @@
+# 方案四
 import sys,os,random,shutil
 from hashlib import md5
 from time import time
 
 fileA = 'a'
 fileB = 'b'
-fileSum = 'sum2.txt'
+fileSum = 'sum3.txt'
 hashPath = 'hashtable'
 tempFile = 'temp'
 readList = []
@@ -16,7 +17,7 @@ cacheSize = 2*1024*1024*100
 # 缓存结果
 resultCache = []
 resultMemery = 0
-resultSize = 500
+resultSize = 1000
 
 # 读文件并创建散列
 def createHash(filename):
@@ -34,7 +35,7 @@ def createHash(filename):
 
 # 散列函数
 def hash(line):
-  return md5(line.encode("utf-8")).hexdigest()[0:2]
+  return md5(line.encode("utf-8")).hexdigest()[0:4]
 
 # 散列内容到文件
 def hash2File(lable, index, content):
@@ -223,7 +224,3 @@ if __name__=='__main__':
   writeResult(resultCache)
   resultCache.clear()
   print("查找耗时:" + str(time() - start) + "秒")
-
-
-  
-
