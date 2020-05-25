@@ -41,7 +41,7 @@ AB文件 9.39G 耗时350s
 
 #### 结果二
 
-AB文件 20.4G 耗时 664s
+AB文件 20.4G 耗时 560s
 
 ![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG1.png)
 
