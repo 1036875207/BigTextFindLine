@@ -31,7 +31,7 @@ python3 findSameLine4.py
 python3 mapFile.py
 
 
-### 运行结果：（只展示效果最好的方案六）
+### 运行结果：（只展示效果最好的方案六 findSameLine4.py）
 
 #### 结果一
 
@@ -44,3 +44,7 @@ AB文件 9.39G 耗时350s
 AB文件 20.4G 耗时 664s
 
 ![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG1.png)
+
+#### 结果三
+
+AB文件 39.4G 和 38.4G 耗时 1148s
