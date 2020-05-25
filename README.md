@@ -33,6 +33,8 @@ python3 mapFile.py
 
 ### 运行结果：（只展示效果最好的方案六 findSameLine4.py）
 
+单机运行 12G空余内存 6核6线程
+
 #### 结果一
 
 AB文件 9.39G 耗时350s
