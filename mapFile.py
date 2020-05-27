@@ -1,6 +1,6 @@
 import sys,os,random,shutil
 from time import time
-filA = 'm'
+TARGET_FILE = 'a'
 fileSum = 'mapSum.txt'
 
 def saveResult(line):
@@ -8,7 +8,7 @@ def saveResult(line):
     f.write(line)
   f.close()
 
-def mapSame(current, filename, instruct):
+def map_same(current, filename, instruct):
   dataList = []
   f = open(filename)
   index = 1
@@ -23,15 +23,16 @@ def mapSame(current, filename, instruct):
 
 if __name__=='__main__':
   start = time()
-  f = open(filA)
+  f = open(TARGET_FILE)
   index = 1
   line = f.readline()
   while line:
-      # 再遍历自身
-      aList = mapSame(line, filA, index)
+      # 遍历
+      resultList = map_same(line, TARGET_FILE, index)
       # 保存结果
-      if len(aList) > 0:
-        saveResult('data(%s) a:%s\n'%(line.strip('\n'), aList))
+      if len(resultList) > 0:
+        resultList.append(index)
+        saveResult('data(%s) a:%s\n'%(line.strip('\n'), resultList))
       line = f.readline()
       index += 1
   f.close()

@@ -2,24 +2,23 @@ import sys,os,random,shutil
 from hashlib import md5
 from time import time
 
-fileA = 'a'
-fileB = 'b'
-fileSum = 'sum2.txt'
-hashPath = 'hashtable'
-tempFile = 'temp'
-noReadList = []
+TARGET_FILE = 'a'
+FILE_SUM = 'sum2.txt'
+HASH_PATH = 'hashtable'
+READ_LIST = []
 
 # 读文件并创建散列
-def createHash(filename):
+def create_hash(filename):
   f = open(filename)
   index = 1
   line = f.readline()
   while line:
-      # 行内容散列
-      hash2File(filename, index, line)
-      line = f.readline()
-      index += 1
+    # 行内容散列
+    hash2File(filename, index, line)
+    line = f.readline()
+    index += 1
   f.close()
+
 
 # 散列函数
 def hash(line):
@@ -28,144 +27,82 @@ def hash(line):
 # 散列内容到文件
 def hash2File(lable, index, content):
   filename = hash(content)
-  with open('%s/%s'%(hashPath, filename), 'a+') as f:
-    f.write('%s:%s:%s'%(index, lable, content))
+  with open('%s/%s'%(HASH_PATH, filename), 'a+') as f:
+    f.write('%s:%s'%(index, content))
   f.close()
 
-# 随机创建文件内容
-def createFile(filename):
-  with open(filename, 'a+') as f:
-    for i in range(10000):
-      line = md5(str(int(random.random() * 10000)).encode("utf-8")).hexdigest()
-      # line = int(random.random() * 100000)
-      f.write('%s\n'%(line))
-  f.close()
-
-def fileSize(filePath):
-  fsize = os.path.getsize(filePath)
-  fsize = fsize/float(1024 * 1024)
-  return round(fsize, 2)
-
-def write(filename, data):
-  with open(filename, 'a+') as f:
-    f.write(data)
-  f.close()
-
-def writeTemp(data):
-  with open(tempFile, 'a+') as f:
-    f.write(data)
-  f.close()
-
-def saveResult(line):
-  with open(fileSum, 'a+') as f:
+def save_result(line):
+  with open(FILE_SUM, 'a+') as f:
     f.write(line)
   f.close()
-  # print('save', line)
 
-def splitFile(filePath):
-  size = fileSize(filePath)
-  if size >= 1024:
-    # 拆分的文件数量
-    num = int(size/1024) + 1
-
-    # 打开文本进行拆分
-    f = open(filePath)
-    index = 1
-    line = f.readline()
-    while line:
-      # 行内容重写到拆分文件中
-      write('%s%s'%(filePath, index%num), line)
-      line = f.readline()
-      index += 1
-    f.close()
-    # 返回拆分的文件数量
-    return num
-  return 0
 
 # 还原数据结构 index:lable:content
-def getDataParam(str):
+def get_data_param(str):
   index = str.find(':')
   lable = str[index + 1:].find(':')
-  return str[:index], str[index + 1:][:lable], str[index + 1:][lable+ 1:]
+  return str[:index], str[index + 1:]
 
-def calcSame(filename):
-  aList = []
-  bList = []
 
+def calc_same(filename):
   first = open(filename)
+  firstIndex = 1
+
   while True:
-    firstIndex = 1
-    firstLine = first.readline()
-    if not firstLine:
+    result_list = []
+    first_line = first.readline()
+
+    if not first_line:
       break
-    # 重置
-    aList.clear()
-    bList.clear()
+
     # 当前比较的内容
-    current = getDataParam(firstLine)[2]
+    fIndex, current = get_data_param(first_line)
+    result_list.append(fIndex)
+    READ_LIST.append(firstIndex)
 
     # 打开文件行进行比较
     second = open(filename)
-    secondIndex = 0
+    second_index = 1
     while True:
-      secondLine = second.readline()
-      secondIndex += 1
-      if not secondLine:
+      second_line = second.readline()
+      if not second_line:
         break
       # 当前行没有比较过
-      if secondIndex not in noReadList:
-          index, lable, secondData = getDataParam(secondLine)
-          if secondData == current:
-            noReadList.append(index)
-            if lable == fileA:
-              aList.append(index)
-            else:
-              bList.append(index)
+      if second_index not in READ_LIST:
+          index, second_data = get_data_param(second_line)
+          if second_data == current:
+            READ_LIST.append(index)
+            result_list.append(index)
+      second_index += 1
     # 写入结果
-    if len(aList) > 0 and len(bList) > 0:
-      saveResult('a:%s b:%s %s\n'%(aList, bList, current.strip('\n')))
+    if len(result_list) > 1:
+      save_result('%s result:%s\n'%(current.strip('\n'), result_list))
+    firstIndex += 1
 
-  
 
 if __name__=='__main__':
-
-  # # 初始化数据
-  # print('初始化数据')
-  # createFile(fileA)
-  # createFile(fileB)
-
-  # # 计时
+  # 计时
   start = time()
 
-  isExists = os.path.exists(hashPath)
+  isExists = os.path.exists(HASH_PATH)
   if isExists:
     # 如果不存在则创建目录
-    shutil.rmtree(hashPath)
-  os.makedirs(hashPath, mode=0o777)
+    shutil.rmtree(HASH_PATH)
+  os.makedirs(HASH_PATH, mode=0o777)
   
   print('开始散列')
   # 创建散列文本
-  createHash(fileA)
-  # createHash(fileB)
+  create_hash(TARGET_FILE)
   print("散列耗时" + str(time() - start) + "秒")
   
   # 计时
   start = time()
   # 散列文本遍历
-  for i in os.listdir(hashPath):
-    itemPath = hashPath + "/" + i
-    if os.path.isfile(itemPath):
-      # 是否需要拆分
-      num = splitFile(itemPath)
-      # print(itemPath, num)
-      if num is 0:
-        # 不需要拆分,进行文件的遍历统计
-        noReadList.clear()
-        calcSame(itemPath)
-      # 打开文本
-      else:
-        for i in range(num):
-          calcSame('%s%s'%(itemPath, i))
+  for i in os.listdir(HASH_PATH):
+    item_path = HASH_PATH + "/" + i
+    if os.path.isfile(item_path):
+      READ_LIST.clear()
+      calc_same(item_path)
   print("查找耗时:" + str(time() - start) + "秒")
 
   

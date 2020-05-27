@@ -5,25 +5,20 @@ from hashlib import md5
 from time import time
 
 # 字符集
-textList = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
-fileA = 'f'
-fileSum = 'sum.txt'
-tempFile = 'temp'
+TARGET_FILE = 'a'
+FILE_SUM = 'ram_sum.txt'
 
-aReadList = []
-bReadList = []
-
-cacheRange = 11000
-fileCache = {}
-cacheMemery = 0
+cache_range = 11000
+file_cache = {}
+cache_memery = 0
 # 缓存释放大小 4G
 cacheSize = 1024*1024*1
 
 # 缓存结果
-resultCache = []
-resultMemery = 0
-resultSize = 1024*1024
+result_cache = []
+result_memery = 0
+result_size = 1024*1024
 
 # 读文件并创建散列
 def createHash(filename, hashIndex):
@@ -32,7 +27,7 @@ def createHash(filename, hashIndex):
   line = f.readline()
   while line:
     # 行内容散列
-    # if (fileA == filename and index not in aReadList) or (fileB == filename and index not in bReadList):
+    # if (TARGET_FILE == filename and index not in aReadList) or (fileB == filename and index not in bReadList):
     hash2File(filename, index, line, hashIndex)
     line = f.readline()
     index += 1
@@ -45,74 +40,69 @@ def hash(line):
 # 散列内容到文件
 def hash2File(lable, index, content, hashIndex):
   # 数据暂存
-  global cacheMemery
+  global cache_memery
   filename = hash(content)
   data = '%s:%s'%(content, index)
-  if filename < hashIndex and filename >= hashIndex - cacheRange:
-    # if lable == fileA:
+  if filename < hashIndex and filename >= hashIndex - cache_range:
+    # if lable == TARGET_FILE:
     #   aReadList.append(index)
     # else:
     #   bReadList.append(index)
-    if filename not in fileCache.keys():
-      fileCache[filename] = []
-    fileCache[filename].append(data)
-    cacheMemery += 1
+    if filename not in file_cache.keys():
+      file_cache[filename] = []
+    file_cache[filename].append(data)
+    cache_memery += 1
   # 缓存到了4G就先比较当前文件
-  if cacheMemery >= cacheSize:
-    clearFileCache()
+  if cache_memery >= cacheSize:
+    clear_file_cache()
 
 # 清除文件缓存
-def clearFileCache():
-  global cacheMemery
+def clear_file_cache():
+  global cache_memery
   print('释放缓存')
-  for value in fileCache.values():
+  for value in file_cache.values():
     #print(len(value))
     calcSame(value)
-  fileCache.clear()
-  cacheMemery = 0
+  file_cache.clear()
+  cache_memery = 0
   print('成功释放')
 
-def writeResult(list):
-  with open(fileSum, 'a+', encoding='utf-8') as f:
+def write_result(list):
+  with open(FILE_SUM, 'a+', encoding='utf-8') as f:
     f.write('\n'.join(list))
   f.close()
 
-def saveResult(line):
-  global resultMemery
-  resultCache.append(line)
-  resultMemery += 1
-  # print(resultMemery)
-  if resultMemery >= resultSize:
+def save_result(line):
+  global result_memery
+  result_cache.append(line)
+  result_memery += 1
+  # print(result_memery)
+  if result_memery >= result_size:
     # 写结果
     print('写结果')
-    writeResult(resultCache)
-    resultCache.clear()
-    resultMemery = 0
+    write_result(result_cache)
+    result_cache.clear()
+    result_memery = 0
 
 # 还原数据结构 index:lable:content
-def getDataParam(str):
+def get_data_param(str):
   index = str.find(':')
   lable = str[index + 1:].find(':')
-  # return str[:index], str[index + 1:][:lable], str[index + 1:][lable+ 1:]
-  return str[:index], str[index + 1:][:lable]
+  return str[:index], str[index + 1:]
+
 
 def calcSame(lineList):
-  resultList = []
-
   fIndex = 0
   # 按首排序
   lineList.sort()
   listLength = len(lineList)
   # while fIndex < listLength:
   while fIndex < listLength:
-    
+    resultList = []
     firstLine = lineList[fIndex]
 
-    # clear
-    resultList.clear()
-
     # 当前比较的内容
-    current, i = getDataParam(firstLine)
+    current, i = get_data_param(firstLine)
 
     resultList.append(i)
 
@@ -123,7 +113,7 @@ def calcSame(lineList):
       # if secondIndex not in readList:
       if secondLine[0] != current[0]:
         break
-      secondData, index = getDataParam(secondLine)
+      secondData, index = get_data_param(secondLine)
       if secondData == current:
         fIndex = secondIndex + 1
         # readList.append(secondIndex)
@@ -131,18 +121,18 @@ def calcSame(lineList):
       secondIndex += 1
 
     # 写入结果
-    if len(resultList) >= 2 :
-      saveResult('%s result:%s \n'%(current.strip('\n'), ','.join(resultList)))
+    if len(resultList) > 1:
+      save_result('%s result: %s \n'%(current.strip('\n'), ','.join(resultList)))
 
 def singelRun(iRange):
   print(iRange)
-  createHash(fileA, iRange + cacheRange)
+  createHash(TARGET_FILE, iRange + cache_range)
   # 释放
-  clearFileCache()
+  clear_file_cache()
 
-  writeResult(resultCache)
-  resultCache.clear()
-  resultMemery = 0
+  write_result(result_cache)
+  result_cache.clear()
+  result_memery = 0
 
 if __name__=='__main__':
  
@@ -151,17 +141,17 @@ if __name__=='__main__':
   proces = []
 
   print('开始散列')
-  # 创建散列文本
+  # 多线程
   nCpu = multiprocessing.cpu_count()
+  chunk = 65536 / nCpu
+  # 计算每个线程查找的hash的范围
+  cache_range = int(chunk + 5)
   for k in range(nCpu):
-    chunk = 65536 / nCpu
     min = int(chunk * k)
     max = int(chunk * (k + 1))
     for i in range(min, max):
-      if i%cacheRange == 0:
+      if i%cache_range == 0:
         proces.append(multiprocessing.Process(target=singelRun, args=(i,)))
-    #   break
-    # break
    
   for proc in proces:
     proc.start()

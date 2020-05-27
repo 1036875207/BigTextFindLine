@@ -1,5 +1,5 @@
 #### 说明:
-前提设定：如何找两个100G文件的相同行？
+前提设定：大文件如何找相同行？
 
 实现优化了五种方式
 
@@ -24,7 +24,7 @@ python3 findSameLine2.py
 
 python3 findSameLine3.py
 
-python3 findSameLine4.py
+python3 findSameLine4.py 效果最好
 
 python3 mapFile.py
 
