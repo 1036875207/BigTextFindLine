@@ -33,7 +33,7 @@ def create_hash(filename):
 
 # 散列函数
 def hash(line):
-  return md5(line[0:4].encode("utf-8")).hexdigest()[0:4]
+  return md5(line.encode("utf-8")).hexdigest()[0:2]
 
 
 # 散列内容到文件
@@ -61,7 +61,7 @@ def clear_file_cache():
       write_cache(key, file_cache[key])
   # 清空缓存
   file_cache.clear()
-  cache_memery += 0
+  cache_memery = 0
 
 # 写hash缓存数据
 def write_cache(filename, list):

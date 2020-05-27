@@ -5,7 +5,7 @@ from time import time
 TARGET_FILE = 'a'
 FILE_SUM = 'sum2.txt'
 HASH_PATH = 'hashtable'
-READ_LIST = []
+read_LIST = []
 
 # 读文件并创建散列
 def create_hash(filename):
@@ -58,7 +58,7 @@ def calc_same(filename):
     # 当前比较的内容
     fIndex, current = get_data_param(first_line)
     result_list.append(fIndex)
-    READ_LIST.append(firstIndex)
+    read_list.append(firstIndex)
 
     # 打开文件行进行比较
     second = open(filename)
@@ -68,10 +68,10 @@ def calc_same(filename):
       if not second_line:
         break
       # 当前行没有比较过
-      if second_index not in READ_LIST:
+      if second_index not in read_list:
           index, second_data = get_data_param(second_line)
           if second_data == current:
-            READ_LIST.append(index)
+            read_list.append(index)
             result_list.append(index)
       second_index += 1
     # 写入结果
@@ -101,7 +101,7 @@ if __name__=='__main__':
   for i in os.listdir(HASH_PATH):
     item_path = HASH_PATH + "/" + i
     if os.path.isfile(item_path):
-      READ_LIST.clear()
+      read_list.clear()
       calc_same(item_path)
   print("查找耗时:" + str(time() - start) + "秒")
 
