@@ -26,7 +26,6 @@ def createHash(filename, hashIndex):
   line = f.readline()
   while line:
     # 行内容散列
-    # if (TARGET_FILE == filename and index not in aReadList) or (fileB == filename and index not in bReadList):
     hash2File(filename, index, line, hashIndex)
     line = f.readline()
     index += 1
@@ -43,10 +42,6 @@ def hash2File(lable, index, content, hashIndex):
   filename = hash(content)
   data = '%s:%s'%(content, index)
   if filename < hashIndex and filename >= hashIndex - cache_range:
-    # if lable == TARGET_FILE:
-    #   aReadList.append(index)
-    # else:
-    #   bReadList.append(index)
     if filename not in file_cache.keys():
       file_cache[filename] = []
     file_cache[filename].append(data)
