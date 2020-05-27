@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# 4G内存 硬盘无限
+#!/usr/bin/env/ python3
 import sys,os,random,shutil,random,multiprocessing
 from hashlib import md5
 from time import time

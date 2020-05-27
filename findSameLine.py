@@ -1,3 +1,4 @@
+#!/usr/bin/env/ python3
 import sys,os,random,shutil
 from hashlib import md5
 from time import time
@@ -19,9 +20,11 @@ def create_hash(filename):
       index += 1
   f.close()
 
+
 # 散列函数
 def hash(line):
   return md5(line.encode("utf-8")).hexdigest()[0:2]
+
 
 # 散列内容到文件
 def hash2File(index, content):
@@ -29,6 +32,7 @@ def hash2File(index, content):
   with open('%s/%s'%(HASH_PATH, filename), 'a+') as f:
     f.write('%s:%s'%(index, content))
   f.close()
+
 
 # 删除文件夹和文件
 def delFiles(path):
@@ -102,7 +106,6 @@ def calcSame(filename):
   
 
 if __name__=='__main__':
-
   # 计时
   start = time()
 

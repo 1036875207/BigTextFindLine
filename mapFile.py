@@ -1,10 +1,12 @@
+#!/usr/bin/env/ python3
 import sys,os,random,shutil
 from time import time
+
 TARGET_FILE = 'a'
-fileSum = 'mapSum.txt'
+FILE_SUM = 'mapSum.txt'
 
 def saveResult(line):
-  with open(fileSum, 'a+') as f:
+  with open(FILE_SUM, 'a+') as f:
     f.write(line)
   f.close()
 
@@ -28,11 +30,11 @@ if __name__=='__main__':
   line = f.readline()
   while line:
       # 遍历
-      resultList = map_same(line, TARGET_FILE, index)
+      result_list = map_same(line, TARGET_FILE, index)
       # 保存结果
-      if len(resultList) > 0:
-        resultList.append(index)
-        saveResult('data(%s) a:%s\n'%(line.strip('\n'), resultList))
+      if len(result_list) > 0:
+        result_list.append(index)
+        saveResult('data(%s) a:%s\n'%(line.strip('\n'), result_list))
       line = f.readline()
       index += 1
   f.close()

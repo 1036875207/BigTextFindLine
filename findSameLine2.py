@@ -1,3 +1,4 @@
+#!/usr/bin/env/ python3
 import sys,os,random,shutil
 from hashlib import md5
 from time import time
@@ -24,6 +25,7 @@ def create_hash(filename):
 def hash(line):
   return md5(line.encode("utf-8")).hexdigest()[0:2]
 
+
 # 散列内容到文件
 def hash2File(lable, index, content):
   filename = hash(content)
@@ -31,19 +33,22 @@ def hash2File(lable, index, content):
     f.write('%s:%s'%(index, content))
   f.close()
 
+
+# 保存结果
 def save_result(line):
   with open(FILE_SUM, 'a+') as f:
     f.write(line)
   f.close()
 
 
-# 还原数据结构 index:lable:content
+# 还原数据结构 index:lable
 def get_data_param(str):
   index = str.find(':')
   lable = str[index + 1:].find(':')
   return str[:index], str[index + 1:]
 
 
+# 计算
 def calc_same(filename):
   first = open(filename)
   firstIndex = 1

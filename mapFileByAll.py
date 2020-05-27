@@ -1,5 +1,7 @@
+#!/usr/bin/env/ python3
 import sys,os,random,shutil
 from time import time
+
 TARGET_FILE = 'a'
 FILE_SUM = 'mapSum.txt'
 
@@ -7,19 +9,6 @@ def save_result(line):
   with open(FILE_SUM, 'a+') as f:
     f.write(line)
   f.close()
-
-def map_same(current, filename, instruct):
-  data_list = []
-  f = open(filename)
-  index = 1
-  line = f.readline()
-  while line:
-    if line == current and index > instruct:
-      data_list.append(index)
-    line = f.readline()
-    index += 1
-  f.close()
-  return data_list
 
 if __name__=='__main__':
   start = time()
