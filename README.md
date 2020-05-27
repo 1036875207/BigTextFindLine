@@ -35,20 +35,22 @@ python3 mapFile.py
 
 单机运行 12G空余内存 6核6线程
 
+耗时 = 文件加载 + hash + 数据存储 + 排序查找
+
 #### 结果一
 
-AB文件 9.39G 耗时350s
+文件 10.2G 耗时69.5s
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG2.jpeg)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/11590551079_.pic_hd.jpg)
 
-#### 结果二
+<!-- #### 结果二
 
 AB文件 20.4G 耗时 560s
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG1.png)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG1.png) -->
 
-#### 结果三
+#### 结果二
 
-AB文件 39.4G 和 38.4G 耗时 1148s
+文件 60G 耗时 436s
 
-![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/WechatIMG3.png)
+![image](https://github.com/1036875207/BigTextFindLine/blob/master/images/11590551551_.pic_hd.jpg)

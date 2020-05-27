@@ -1,11 +1,9 @@
-# 方案四
 import sys,os,random,shutil
 from hashlib import md5
 from time import time
 
-fileA = 'a'
-fileB = 'b'
-fileSum = 'sum3.txt'
+fileA = 'm'
+fileSum = 'sum2.txt'
 hashPath = 'hashtable'
 tempFile = 'temp'
 readList = []
@@ -35,7 +33,7 @@ def createHash(filename):
 
 # 散列函数
 def hash(line):
-  return md5(line.encode("utf-8")).hexdigest()[0:4]
+  return md5(line[0:4].encode("utf-8")).hexdigest()[0:4]
 
 # 散列内容到文件
 def hash2File(lable, index, content):
@@ -67,9 +65,9 @@ def clearFileCache():
 # 随机创建文件内容
 def createFile(filename):
   with open(filename, 'a+') as f:
-    for i in range(20000):
-      # line = md5(str(int(random.random() * 10000)).encode("utf-8")).hexdigest()
-      line = int(random.random() * 100000)
+    for i in range(10000):
+      line = md5(str(int(random.random() * 10000)).encode("utf-8")).hexdigest()
+      # line = int(random.random() * 100000)
       f.write('%s\n'%(line))
   f.close()
 
@@ -186,7 +184,7 @@ if __name__=='__main__':
   # print('初始化数据')
   # createFile(fileA)
   # createFile(fileB)
-
+  # print('初始化结束')
   # 计时
   start = time()
 
@@ -199,7 +197,7 @@ if __name__=='__main__':
   print('开始散列')
   # # 创建散列文本
   createHash(fileA)
-  createHash(fileB)
+  # createHash(fileB)
   print("散列耗时" + str(time() - start) + "秒")
   
   # 计时

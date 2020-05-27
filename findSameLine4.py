@@ -1,31 +1,29 @@
-# 方案六
+# -*- coding: utf-8 -*-
+# 4G内存 硬盘无限
 import sys,os,random,shutil,random,multiprocessing
 from hashlib import md5
 from time import time
 
 # 字符集
+textList = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
-fileA = 'a'
-fileB = 'b'
-fileSum = 'sum4.txt'
-hashPath = 'hashtable'
+fileA = 'f'
+fileSum = 'sum.txt'
 tempFile = 'temp'
 
 aReadList = []
 bReadList = []
 
-readList = []
-
-cacheRange = 800
+cacheRange = 11000
 fileCache = {}
 cacheMemery = 0
 # 缓存释放大小 4G
-cacheSize = 1024*1024*4
+cacheSize = 1024*1024*1
 
 # 缓存结果
 resultCache = []
 resultMemery = 0
-resultSize = 1024*10
+resultSize = 1024*1024
 
 # 读文件并创建散列
 def createHash(filename, hashIndex):
@@ -42,15 +40,14 @@ def createHash(filename, hashIndex):
 
 # 散列函数 结果范围[0, 50]的整数
 def hash(line):
-  #return int((int(md5(line.encode("utf-8")).hexdigest()[0:2], 16) + 0.5) / 5.1)
-  return int(md5(line.encode("utf-8")).hexdigest()[0:3], 16)
+  return int(md5(line[0:4].encode("utf-8")).hexdigest()[0:4], 16)
 
 # 散列内容到文件
 def hash2File(lable, index, content, hashIndex):
   # 数据暂存
   global cacheMemery
   filename = hash(content)
-  data = '%s:%s:%s'%(content, index, lable)
+  data = '%s:%s'%(content, index)
   if filename < hashIndex and filename >= hashIndex - cacheRange:
     # if lable == fileA:
     #   aReadList.append(index)
@@ -69,7 +66,7 @@ def clearFileCache():
   global cacheMemery
   print('释放缓存')
   for value in fileCache.values():
-    # print(len(value))
+    #print(len(value))
     calcSame(value)
   fileCache.clear()
   cacheMemery = 0
@@ -84,7 +81,7 @@ def saveResult(line):
   global resultMemery
   resultCache.append(line)
   resultMemery += 1
-  print(resultMemery)
+  # print(resultMemery)
   if resultMemery >= resultSize:
     # 写结果
     print('写结果')
@@ -96,53 +93,50 @@ def saveResult(line):
 def getDataParam(str):
   index = str.find(':')
   lable = str[index + 1:].find(':')
-  return str[:index], str[index + 1:][:lable], str[index + 1:][lable+ 1:]
+  # return str[:index], str[index + 1:][:lable], str[index + 1:][lable+ 1:]
+  return str[:index], str[index + 1:][:lable]
 
 def calcSame(lineList):
-  aList = []
-  bList = []
+  resultList = []
 
   fIndex = 0
   # 按首排序
   lineList.sort()
-  # readList.clear()
-  for firstLine in lineList:
+  listLength = len(lineList)
+  # while fIndex < listLength:
+  while fIndex < listLength:
+    
+    firstLine = lineList[fIndex]
+
     # clear
-    aList.clear()
-    bList.clear()
+    resultList.clear()
 
     # 当前比较的内容
-    current, i, l = getDataParam(firstLine)
+    current, i = getDataParam(firstLine)
+
+    resultList.append(i)
 
     fIndex += 1
-    # readList.append(fIndex)
 
-    if l == fileA:
-      aList.append(i)
-    else:
-      bList.append(i)
-
-    secondIndex = 1
+    secondIndex = fIndex
     for secondLine in lineList[fIndex:]:
       # if secondIndex not in readList:
       if secondLine[0] != current[0]:
         break
-      secondData, index, lable = getDataParam(secondLine)
+      secondData, index = getDataParam(secondLine)
       if secondData == current:
+        fIndex = secondIndex + 1
         # readList.append(secondIndex)
-        if lable == fileA:
-          aList.append(index)
-        else:
-          bList.append(index)
+        resultList.append(index)
       secondIndex += 1
+
     # 写入结果
-    if len(aList) > 1 or len(bList) > 1 or (len(bList) > 0 and len(aList) > 0):
-      saveResult('%s:%s:%s \n'%(current.strip('\n'), ','.join(aList), ','.join(bList)))
+    if len(resultList) >= 2 :
+      saveResult('%s result:%s \n'%(current.strip('\n'), ','.join(resultList)))
 
 def singelRun(iRange):
   print(iRange)
   createHash(fileA, iRange + cacheRange)
-  createHash(fileB, iRange + cacheRange)
   # 释放
   clearFileCache()
 
@@ -160,12 +154,14 @@ if __name__=='__main__':
   # 创建散列文本
   nCpu = multiprocessing.cpu_count()
   for k in range(nCpu):
-    chunk = 4097 / nCpu
+    chunk = 65536 / nCpu
     min = int(chunk * k)
     max = int(chunk * (k + 1))
     for i in range(min, max):
       if i%cacheRange == 0:
         proces.append(multiprocessing.Process(target=singelRun, args=(i,)))
+    #   break
+    # break
    
   for proc in proces:
     proc.start()

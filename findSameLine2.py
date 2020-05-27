@@ -144,9 +144,9 @@ if __name__=='__main__':
   os.makedirs(hashPath, mode=0o777)
   
   print('开始散列')
-  # # 创建散列文本
+  # 创建散列文本
   createHash(fileA)
-  createHash(fileB)
+  # createHash(fileB)
   print("散列耗时" + str(time() - start) + "秒")
   
   # 计时

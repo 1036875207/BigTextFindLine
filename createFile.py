@@ -4,12 +4,11 @@ from time import time
 textList = ['测','测','啊','不','从','到','鹅','非','个','好','再','跑','里','前','了','开','噢','题','吃','新','写','上','走','字','空','还']
 
 fileA = 'a'
-fileB = 'b'
 
 # 随机创建文件内容
 def createFile(filename):
   tList = []
-  for i in range(1024 * 10):
+  for i in range(1024):
     # 一行=1kb
     line = ''
     for i in range(512):
@@ -24,7 +23,6 @@ def createFile(filename):
 
 def singleCreate():
   createFile(fileA)
-  createFile(fileB)
 
 if __name__=='__main__':
 
