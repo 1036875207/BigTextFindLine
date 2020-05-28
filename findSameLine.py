@@ -65,7 +65,7 @@ def get_data_param(str):
   return str[:index], str[index + 1:]
 
 
-def calcSame(filename):
+def calc_same(filename):
   # 删除临时文件
   if os.path.exists(TEMP_FILE):
     os.remove(TEMP_FILE)
@@ -102,7 +102,7 @@ def calcSame(filename):
   else:
     return
   # 递归文件
-  calcSame(filename)
+  calc_same(filename)
   
 
 if __name__=='__main__':
@@ -126,7 +126,7 @@ if __name__=='__main__':
   for i in os.listdir(HASH_PATH):
     item_path = HASH_PATH + "/" + i
     if os.path.isfile(item_path):
-      calcSame(item_path)
+      calc_same(item_path)
 
   print("查找耗时:" + str(time() - start) + "秒")
 
