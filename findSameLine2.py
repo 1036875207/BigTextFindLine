@@ -6,7 +6,7 @@ from time import time
 TARGET_FILE = 'a'
 FILE_SUM = 'sum2.txt'
 HASH_PATH = 'hashtable'
-read_LIST = []
+read_list = []
 
 # 读文件并创建散列
 def create_hash(filename):
@@ -51,7 +51,7 @@ def get_data_param(str):
 # 计算
 def calc_same(filename):
   first = open(filename)
-  firstIndex = 1
+  first_index = 1
 
   while True:
     result_list = []
@@ -63,7 +63,7 @@ def calc_same(filename):
     # 当前比较的内容
     fIndex, current = get_data_param(first_line)
     result_list.append(fIndex)
-    read_list.append(firstIndex)
+    read_list.append(first_index)
 
     # 打开文件行进行比较
     second = open(filename)
@@ -82,15 +82,15 @@ def calc_same(filename):
     # 写入结果
     if len(result_list) > 1:
       save_result('%s result:%s\n'%(current.strip('\n'), result_list))
-    firstIndex += 1
+    first_index += 1
 
 
 if __name__=='__main__':
   # 计时
   start = time()
 
-  isExists = os.path.exists(HASH_PATH)
-  if isExists:
+  is_exists = os.path.exists(HASH_PATH)
+  if is_exists:
     # 如果不存在则创建目录
     shutil.rmtree(HASH_PATH)
   os.makedirs(HASH_PATH, mode=0o777)

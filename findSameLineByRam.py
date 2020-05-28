@@ -20,13 +20,13 @@ result_memery = 0
 result_size = 1024*1024
 
 # 读文件并创建散列
-def createHash(filename, hashIndex):
+def create_hash(filename, hash_index):
   f = open(filename, encoding='utf-8')
   index = 1
   line = f.readline()
   while line:
     # 行内容散列
-    hash2File(filename, index, line, hashIndex)
+    hash2File(filename, index, line, hash_index)
     line = f.readline()
     index += 1
   f.close()
@@ -36,12 +36,12 @@ def hash(line):
   return int(md5(line[0:4].encode("utf-8")).hexdigest()[0:4], 16)
 
 # 散列内容到文件
-def hash2File(lable, index, content, hashIndex):
+def hash2File(lable, index, content, hash_index):
   # 数据暂存
   global cache_memery
   filename = hash(content)
   data = '%s:%s'%(content, index)
-  if filename < hashIndex and filename >= hashIndex - cache_range:
+  if filename < hash_index and filename >= hash_index - cache_range:
     if filename not in file_cache.keys():
       file_cache[filename] = []
     file_cache[filename].append(data)
@@ -56,7 +56,7 @@ def clear_file_cache():
   print('释放缓存')
   for value in file_cache.values():
     #print(len(value))
-    calcSame(value)
+    calc_same(value)
   file_cache.clear()
   cache_memery = 0
   print('成功释放')
@@ -85,42 +85,42 @@ def get_data_param(str):
   return str[:index], str[index + 1:]
 
 
-def calcSame(lineList):
+def calc_same(line_list):
   fIndex = 0
   # 按首排序
-  lineList.sort()
-  listLength = len(lineList)
-  # while fIndex < listLength:
-  while fIndex < listLength:
-    resultList = []
-    firstLine = lineList[fIndex]
+  line_list.sort()
+  list_length = len(line_list)
+  # while fIndex < list_length:
+  while fIndex < list_length:
+    result_list = []
+    firstLine = line_list[fIndex]
 
     # 当前比较的内容
     current, i = get_data_param(firstLine)
 
-    resultList.append(i)
+    result_list.append(i)
 
     fIndex += 1
 
-    secondIndex = fIndex
-    for secondLine in lineList[fIndex:]:
-      # if secondIndex not in readList:
-      if secondLine[0] != current[0]:
+    second_index = fIndex
+    for second_line in line_list[fIndex:]:
+      # if second_index not in readList:
+      if second_line[0] != current[0]:
         break
-      secondData, index = get_data_param(secondLine)
-      if secondData == current:
-        fIndex = secondIndex + 1
-        # readList.append(secondIndex)
-        resultList.append(index)
-      secondIndex += 1
+      second_data, index = get_data_param(second_line)
+      if second_data == current:
+        fIndex = second_index + 1
+        # readList.append(second_index)
+        result_list.append(index)
+      second_index += 1
 
     # 写入结果
-    if len(resultList) > 1:
-      save_result('%s result: %s \n'%(current.strip('\n'), ','.join(resultList)))
+    if len(result_list) > 1:
+      save_result('%s result: %s \n'%(current.strip('\n'), ','.join(result_list)))
 
 def singelRun(iRange):
   print(iRange)
-  createHash(TARGET_FILE, iRange + cache_range)
+  create_hash(TARGET_FILE, iRange + cache_range)
   # 释放
   clear_file_cache()
 

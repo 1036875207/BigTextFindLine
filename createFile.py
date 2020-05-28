@@ -9,11 +9,11 @@ TARGET_FILE = 'a'
 # 随机创建文件内容
 def create_file(filename):
   line_list = []
-  for i in range(1024):
+  for i in range(100):
     # 一行=1kb
     line = ''
-    for i in range(10):
-      line += random.choice(TEXT)
+    for i in range(1024):
+      line += random.choice(TEXT_LIST)
     line_list.append(line)
   print('init success')
   with open(filename, 'a+', encoding='utf-8') as f:

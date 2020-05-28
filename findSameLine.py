@@ -4,7 +4,7 @@ from hashlib import md5
 from time import time
 
 TARGET_FILE = 'a'
-fileSum = 'sum.txt'
+FILE_SUM = 'sum.txt'
 HASH_PATH = 'hashtable'
 TEMP_FILE = 'temp'
 
@@ -53,7 +53,7 @@ def write_temp(data):
 
 # 保存结果
 def save_result(line):
-  with open(fileSum, 'a+') as f:
+  with open(FILE_SUM, 'a+') as f:
     f.write(line)
   f.close()
 
@@ -124,9 +124,9 @@ if __name__=='__main__':
   start = time()
   # 散列文本遍历
   for i in os.listdir(HASH_PATH):
-    itemPath = HASH_PATH + "/" + i
-    if os.path.isfile(itemPath):
-      calcSame(itemPath)
+    item_path = HASH_PATH + "/" + i
+    if os.path.isfile(item_path):
+      calcSame(item_path)
 
   print("查找耗时:" + str(time() - start) + "秒")
 

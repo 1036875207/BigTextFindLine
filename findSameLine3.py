@@ -1,3 +1,4 @@
+#!/usr/bin/env/ python3
 import sys,os,random,shutil
 from hashlib import md5
 from time import time
@@ -100,11 +101,11 @@ def get_data_param(str):
 
 def calc_same(filename):
   first = open(filename)
-  firstIndex = 1
+  first_index = 1
   while True:
     result_list = []
 
-    read_list.append(firstIndex)
+    read_list.append(first_index)
     first_line = first.readline()
     if not first_line:
       break
@@ -117,28 +118,28 @@ def calc_same(filename):
     second = open(filename)
     second_index = 0
     while True:
-      secondLine = second.readline()
+      second_line = second.readline()
       second_index += 1
-      if not secondLine:
+      if not second_line:
         break
       # 当前行没有比较过
       if second_index not in read_list:
-          index, second_data = get_data_param(secondLine)
+          index, second_data = get_data_param(second_line)
           if second_data == current:
             read_list.append(second_index)
             result_list.append(index)
     # 写入结果
     if len(result_list) > 1:
       save_result('%s result:%s \n'%(current.strip('\n'), result_list))
-    firstIndex += 1
+    first_index += 1
 
 
 if __name__=='__main__':
   # 计时
   start = time()
 
-  isExists = os.path.exists(HASH_PATH)
-  if isExists:
+  is_exists = os.path.exists(HASH_PATH)
+  if is_exists:
     # 如果不存在则创建目录
     shutil.rmtree(HASH_PATH)
   os.makedirs(HASH_PATH, mode=0o777)
@@ -153,10 +154,10 @@ if __name__=='__main__':
   start = time()
   # 散列文本遍历
   for i in os.listdir(HASH_PATH):
-    itemPath = HASH_PATH + "/" + i
-    if os.path.isfile(itemPath):
+    item_path = HASH_PATH + "/" + i
+    if os.path.isfile(item_path):
       read_list.clear()
-      calc_same(itemPath)
+      calc_same(item_path)
 
   print('写入剩余结果')
   write_result(result_cache)
