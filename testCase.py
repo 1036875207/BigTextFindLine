@@ -1,4 +1,5 @@
-import unittest
+#!/usr/bin/env/ python3
+mport unittest
 from findSameLineByRam import *
 
 class Main(unittest.TestCase):
